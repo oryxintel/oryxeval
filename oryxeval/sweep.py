@@ -27,7 +27,7 @@ import oryxflow
 import oryxflow.codehash
 
 from oryxeval.stats import (RateCI, corrected_rate, delta_ci,
-                                  judge_alignment, rate_ci)
+                            judge_alignment, rate_ci)
 from oryxeval.task import TaskEval, _case_digest, _source_hash
 
 NAN = float('nan')

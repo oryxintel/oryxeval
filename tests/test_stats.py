@@ -8,9 +8,6 @@ stays deterministic and fast.
 import pandas as pd
 import pytest
 
-pytest.importorskip('pydantic_evals')  # only for the oryxeval package guard
-pytest.importorskip('scipy')
-
 from oryxeval.metric import Metric
 from oryxeval.stats import delta_ci, rate_ci
 from oryxeval.stats import corrected_rate, judge_alignment

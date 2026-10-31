@@ -12,14 +12,12 @@ re-analysis reads -- and ``<field>_preview`` capped for display only.
 """
 import pytest
 
-pytest.importorskip('pydantic_evals')
+from pydantic import BaseModel
+from pydantic_evals import Case, Dataset
 
-from pydantic import BaseModel                                   # noqa: E402
-from pydantic_evals import Case, Dataset                          # noqa: E402
-
-import oryxflow                                                   # noqa: E402
-import oryxflow.state                                             # noqa: E402
-from oryxeval.task import TaskEval                           # noqa: E402
+import oryxflow
+import oryxflow.state
+from oryxeval.task import TaskEval
 
 
 @pytest.fixture

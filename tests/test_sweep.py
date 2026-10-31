@@ -15,17 +15,15 @@ import sys
 
 import pytest
 
-pytest.importorskip('pydantic_evals')
+import pandas as pd
+from pydantic import BaseModel
+from pydantic_evals import Case, Dataset
 
-import pandas as pd                                              # noqa: E402
-from pydantic import BaseModel                                   # noqa: E402
-from pydantic_evals import Case, Dataset                         # noqa: E402
-
-import oryxflow                                                  # noqa: E402
-import oryxflow.state                                            # noqa: E402
-import oryxeval.task                                             # noqa: E402
-from oryxeval.metric import Metric                         # noqa: E402
-from oryxeval.sweep import EvalResult, sweep               # noqa: E402
+import oryxflow
+import oryxflow.state
+import oryxeval.task
+from oryxeval.metric import Metric
+from oryxeval.sweep import EvalResult, sweep
 
 
 @pytest.fixture

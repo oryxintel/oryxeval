@@ -19,18 +19,16 @@ import re
 
 import pytest
 
-pytest.importorskip('pydantic_evals')
+import typer
+from pydantic import BaseModel
+from pydantic_evals import Case, Dataset
+from typer.testing import CliRunner
 
-import typer                                                      # noqa: E402
-from pydantic import BaseModel                                    # noqa: E402
-from pydantic_evals import Case, Dataset                          # noqa: E402
-from typer.testing import CliRunner                               # noqa: E402
-
-import oryxflow                                                   # noqa: E402
-import oryxflow.state                                             # noqa: E402
-from oryxeval import cli as cli_module                      # noqa: E402
-from oryxeval.cli import build_app, cli                     # noqa: E402
-from oryxeval.task import TaskEval                          # noqa: E402
+import oryxflow
+import oryxflow.state
+from oryxeval import cli as cli_module
+from oryxeval.cli import build_app, cli
+from oryxeval.task import TaskEval
 
 
 runner = CliRunner()
@@ -364,7 +362,7 @@ def test_builtin_defaults_come_from_the_tasks_own_parameters(env, sweep):
 
 
 def test_csv_writes_the_resulting_frame(env, tmp_path, monkeypatch):
-    pd = pytest.importorskip('pandas')
+    import pandas as pd
     frame = pd.DataFrame({'case_name': ['c0', 'c1'], 'wrote': [True, False]})
     stub = _SweepStub(result=_Result(df=frame))
     monkeypatch.setattr(cli_module, '_load_sweep', lambda: stub)
@@ -459,8 +457,9 @@ def _run_py(code):
     import subprocess
     import sys
     root = str(pathlib.Path(__file__).parents[1])
-    subprocess.run([sys.executable, '-c', code], check=True,
-                   env={**os.environ, 'PYTHONPATH': root})
+    done = subprocess.run([sys.executable, '-c', code], capture_output=True,
+                          text=True, env={**os.environ, 'PYTHONPATH': root})
+    assert done.returncode == 0, done.stderr
 
 
 def test_cli_callable_after_direct_import():

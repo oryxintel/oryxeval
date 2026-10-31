@@ -5,9 +5,6 @@ import textwrap
 
 import pytest
 
-pydantic = pytest.importorskip('pydantic')
-pytest.importorskip('pydantic_evals')
-
 from pydantic import BaseModel, ValidationError
 from pydantic_evals import Case
 

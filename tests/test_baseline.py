@@ -9,7 +9,7 @@ import pytest
 
 import oryxeval as ev
 from oryxeval.baseline import (BaselineError, Variant, VariantError, git_sha,
-                                     git_tree)
+                               git_tree)
 
 
 def git(repo, *args):

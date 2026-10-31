@@ -1,0 +1,41 @@
+#!/bin/sh
+# Commit-time guards (there is no CI). One-time install: git config core.hooksPath .githooks
+#  1. Changelog lint: every leading `BREAKING:` bullet carries a `Migration:` clause.
+#  2. No client names or local paths in added lines (check_private_terms.py).
+
+set -e
+root=$(git rev-parse --show-toplevel) || exit 0
+changelog="$root/CHANGELOG.md"
+
+# A real break LEADS its bullet with the token (`- BREAKING: ...`); a bullet that
+# merely mentions `BREAKING:` in prose is not flagged. A bullet runs from a `- `
+# line until the next bullet / blank line / heading.
+if [ -f "$changelog" ]; then
+  bad=$(awk '
+    function flush() {
+      if (first ~ /^[[:space:]]*-[[:space:]]+BREAKING:/ && buf !~ /Migration:/)
+        print "  line " start ": " first
+      buf = ""; first = ""
+    }
+    /^[[:space:]]*-[[:space:]]/ { flush(); start = NR; first = $0; buf = $0; next }
+    /^[[:space:]]*$/ || /^#/    { flush(); next }
+    { buf = buf " " $0 }
+    END { flush() }
+  ' "$changelog")
+  if [ -n "$bad" ]; then
+    echo "pre-commit: BREAKING changelog bullet(s) missing a Migration: clause." >&2
+    echo "$bad" >&2
+    echo "  Add a same-bullet 'Migration:' clause naming the fix." >&2
+    exit 1
+  fi
+fi
+
+# Public repo: the names live in ~/.oryx-private-terms or a gitignored .private-terms.
+py=$(command -v python || command -v python3 || command -v py)
+if [ -n "$py" ]; then
+  "$py" "$root/.githooks/check_private_terms.py" || exit 1
+else
+  echo "pre-commit: no python on PATH; skipped the client-name / local-path check." >&2
+fi
+
+exit 0

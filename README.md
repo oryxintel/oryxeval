@@ -43,5 +43,5 @@ r.verdict()
 
 Docs: [LLM evals quickstart](https://docs.oryxflow.dev/docs/llm-evals-quickstart/) and the [guide](https://docs.oryxflow.dev/docs/llm-evals/).
 
-Moved from `oryxflow.evals`: change `import oryxflow.evals as ev` to `import oryxeval as ev`;
-existing eval caches stay valid. See [CHANGELOG.md](CHANGELOG.md).
+Moved from `oryxflow.evals`. To keep an existing eval's cache, change only its import lines and
+no function body: the steps are in [CHANGELOG.md](CHANGELOG.md) (`[Unreleased]`).

@@ -35,6 +35,7 @@ oryxeval/
 tests/          # pytest; metric/verdict tests run on hand-built DataFrames
 docs/todo/      # design notes (plans)
 CHANGELOG.md  README.md
+.githooks/     # pre-commit: changelog lint + check_private_terms.py
 .github/workflows/  # tests.yml (matrix), release.yml (PyPI Trusted Publishing)
 ```
 
@@ -53,6 +54,7 @@ The dependency runs one way, oryxeval -> oryxflow. Keep this table current; oryx
 
 | oryxeval module | oryxflow symbol it uses |
 | --- | --- |
+| `__init__.py` | re-exports oryxflow's nine `Parameter` classes and `hash_files` (the same objects) |
 | `task.py` | `oryxflow.tasks.TaskJson` (base of `EvalOutputs`), `oryxflow.tasks.TaskPqPandas` (base of `TaskEval`), `oryxflow.IntParameter`, `oryxflow.codehash.task_code_hash`, `oryxflow.codehash.callable_code_hash`, `oryxflow.codehash.strip_docstrings` |
 | `sweep.py` | `oryxflow.WorkflowMulti`, `oryxflow.runIterConcat`, `oryxflow.hash_files`, `oryxflow.codehash.callable_code_hash`, `Parameter` / `Int` / `Float` / `Bool` / `List` / `DictParameter` |
 | `cli.py` | `oryxflow.parameter.{Bool,Choice,Date,Dict,Enum,Float,Int,List}Parameter` |
@@ -121,6 +123,10 @@ comments, commit messages, and especially `docs/todo/` plans. Sanitize as you wr
 
 A plan must stay executable after sanitizing: keep the shape of the real example, drop only the
 identity.
+
+`.githooks/pre-commit` blocks a commit that adds a local path or a listed client name (from
+`~/.oryx-private-terms` or a gitignored `.private-terms`), or a `BREAKING:` changelog bullet
+without `Migration:`. Enable it once per clone: `git config core.hooksPath .githooks`.
 
 ## Conventions
 

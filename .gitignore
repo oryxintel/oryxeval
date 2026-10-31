@@ -129,10 +129,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# local dogfooding harness: re-implements a private project's evals against oryxflow.evals
-utest/
-
 # machine-local agent notes (private paths)
 CLAUDE.local.md
-# client names for scripts/check_private_terms.py (machine-local, never commit)
+# client names for .githooks/check_private_terms.py (machine-local, never commit)
 .private-terms

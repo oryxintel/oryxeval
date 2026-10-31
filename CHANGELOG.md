@@ -15,9 +15,15 @@ coding agents diagnosing regressions after an upgrade, so the format is load-bea
 ## [Unreleased]
 ### Added
 - `oryxeval`: first release as a standalone package. The code is `oryxflow.evals` as of oryxflow
-  26.10.22, unchanged apart from the import name. Existing eval caches stay valid (the cache keys
-  do not contain the module path). Requires `oryxflow>=26.11.0`. Migration: `import oryxflow.evals
-  as ev` -> `import oryxeval as ev`.
+  26.10.22, unchanged apart from the import name. Requires `oryxflow>=26.11.0`. Migration: change
+  only the import lines, `import oryxflow.evals as ev` -> `import oryxeval as ev` and `from
+  oryxflow.evals.<module> import X` -> `from oryxeval.<module> import X`; existing eval caches then
+  stay valid (no cache key contains the module path). Keep `import oryxflow` and leave every
+  function body as it is: `code_version()`, `case()` and their helpers are hashed into the cache
+  key, so any edit there (even `oryxflow.hash_files` -> `ev.hash_files`) re-runs every arm. The next
+  run reuses the cache but prints StalenessWarnings; clear them once, from `evals/`: `python -c
+  "import oryxflow; oryxflow.accept_code()"` (the `accept_code(<Eval>)` the warning names covers
+  only the scoring stage). New evals use `ev.hash_files`.
 - `oryxeval` re-exports oryxflow's `Parameter`, `IntParameter`, `FloatParameter`, `BoolParameter`,
   `ChoiceParameter`, `ListParameter`, `DictParameter`, `DateParameter`, `EnumParameter` and
   `hash_files` (the same objects).

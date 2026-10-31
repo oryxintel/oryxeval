@@ -22,6 +22,7 @@ import os
 import pathlib
 import sys
 import traceback
+import types
 from typing import List, Optional
 
 import typer
@@ -346,3 +347,18 @@ def _warn_if_launched_elsewhere(script=None, cwd=None):
                    pathlib.Path(script).name, here, home, home))
     typer.echo(message, err=True)
     return message
+
+
+class _CliModule(types.ModuleType):
+    """Make this module callable, so ``ev.cli(MyEval)`` runs the command line.
+
+    The package attribute ``cli`` is this module, which also holds a function of the
+    same name; a package cannot expose both under one name. Calling the module runs
+    its ``cli()``, however it was imported.
+    """
+
+    def __call__(self, task, argv=None):
+        return cli(task, argv)
+
+
+sys.modules[__name__].__class__ = _CliModule

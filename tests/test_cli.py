@@ -450,3 +450,30 @@ def test_side_by_side_path_sits_beside_the_eval_module():
     assert path.parent.name == 'results'
     assert path.parent.parent == pathlib.Path(__file__).resolve().parent
     assert path.name.endswith('-live-vs-baseline-side-by-side.md')
+
+
+# -- the cli module is callable however it is imported --------------------------
+
+def _run_py(code):
+    import os
+    import subprocess
+    import sys
+    root = str(pathlib.Path(__file__).parents[1])
+    subprocess.run([sys.executable, '-c', code], check=True,
+                   env={**os.environ, 'PYTHONPATH': root})
+
+
+def test_cli_callable_after_direct_import():
+    _run_py("import oryxeval.cli, oryxeval as ev, sys\n"
+            "assert callable(ev.cli)\n"
+            "assert 'typer' in sys.modules\n")
+
+
+def test_import_does_not_load_typer():
+    _run_py("import oryxeval, sys\nassert 'typer' not in sys.modules\n")
+
+
+def test_sweep_callable_after_submodule_import():
+    _run_py("import oryxeval.sweep, oryxeval as ev\n"
+            "from oryxeval.sweep import EvalResult\n"
+            "assert callable(ev.sweep) and not isinstance(ev.sweep, type(ev))\n")

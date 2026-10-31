@@ -24,7 +24,6 @@ never needs a command line.
 """
 
 import importlib
-import types
 
 from importlib.metadata import PackageNotFoundError, version as _version
 
@@ -94,24 +93,10 @@ __all__ = [
 _LAZY = ('cli', 'build_app')
 
 
-class _CliModule(types.ModuleType):
-    """The ``cli`` submodule, made callable so ``ev.cli(MyEval)`` runs the command line.
-
-    ``cli.py`` holds a function of the same name, and a package cannot expose both
-    under one attribute: binding the function over it would hide the module, and
-    with it ``oryxeval.cli.check``. Calling the module runs its ``cli()``, so
-    ``import oryxeval.cli`` and ``ev.cli(MyEval)`` both mean what they say.
-    """
-
-    def __call__(self, task, argv=None):
-        return self.cli(task, argv)
-
-
 def __getattr__(name):
     """Import the Typer-backed names only when one of them is actually used."""
     if name in _LAZY:
         module = importlib.import_module('oryxeval.cli')
-        module.__class__ = _CliModule
         value = module if name == 'cli' else getattr(module, name)
         globals()[name] = value
         return value

@@ -41,7 +41,7 @@ r = ev.sweep(run_turn,
 r.verdict()
 ```
 
-Docs: the LLM-evals pages at https://docs.oryxflow.dev/ (llm-evals).
+Docs: [LLM evals quickstart](https://docs.oryxflow.dev/docs/llm-evals-quickstart/) and the [guide](https://docs.oryxflow.dev/docs/llm-evals/).
 
 Moved from `oryxflow.evals`: change `import oryxflow.evals as ev` to `import oryxeval as ev`;
 existing eval caches stay valid. See [CHANGELOG.md](CHANGELOG.md).

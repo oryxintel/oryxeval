@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oryxeval"
+version = "26.11.0"
+description = "Cheap, durable LLM evals: every arm of an eval matrix is a cached cell -- re-runs pay only for what changed."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Oryx Intelligence LLC", email = "dev@oryxintel.com"}]
+requires-python = ">=3.10"
+dependencies = ["oryxflow>=26.11.0", "pydantic-evals>=2", "scipy", "typer", "tenacity",
+                "jinja2", "pyyaml", "pandas", "numpy"]
+keywords = ["llm", "evals", "pydantic-evals", "prompt", "oryxflow"]
+classifiers = ["Development Status :: 4 - Beta", "Programming Language :: Python :: 3",
+               "Intended Audience :: Developers", "Intended Audience :: Science/Research"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Source = "https://github.com/oryxintel/oryxeval"
+Changelog = "https://github.com/oryxintel/oryxeval/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+packages = ["oryxeval"]

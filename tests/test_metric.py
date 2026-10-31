@@ -7,9 +7,9 @@ frame someone typed out by hand is also proving the seam holds.
 import pandas as pd
 import pytest
 
-pytest.importorskip('pydantic_evals')  # only for the oryxflow.evals package guard
+pytest.importorskip('pydantic_evals')  # only for the oryxeval package guard
 
-from oryxflow.evals.metric import Metric
+from oryxeval.metric import Metric
 
 
 def frame(rows):

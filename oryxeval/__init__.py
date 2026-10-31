@@ -1,13 +1,12 @@
 """LLM evaluation harness: one cached cell per arm of an eval matrix.
 
-Requires the optional extra::
+Install it with::
 
-    pip install oryxflow[evals]
+    pip install oryxeval
 
-Nothing here is imported by ``oryxflow/__init__.py``, so a user who does not run
-evals is unaffected by it. Import it explicitly::
+It is a separate package from oryxflow, which it builds on. Import it explicitly::
 
-    import oryxflow.evals as ev
+    import oryxeval as ev
 
 SEAM: the per-case DataFrame is the interface. Everything downstream of a run --
 ``Metric``, the slices, the intervals, the verdict, the report -- reads only that
@@ -20,21 +19,25 @@ written against a hand-built DataFrame, so everything downstream of a run is
 testable without pydantic-evals present.
 
 ``cli`` and ``build_app`` are resolved on first use rather than at import, so
-``import oryxflow.evals`` does not pay for Typer -- a sweep run from a notebook
+``import oryxeval`` does not pay for Typer -- a sweep run from a notebook
 never needs a command line.
 """
 
 import importlib
 import types
 
-try:
-    import pydantic_evals as _pydantic_evals
-except ImportError:
-    raise ImportError(
-        "oryxflow.evals needs the 'evals' extra: pip install oryxflow[evals] "
-        "(pydantic-evals, scipy, typer)")
+from importlib.metadata import PackageNotFoundError, version as _version
 
-from oryxflow.evals.baseline import (
+try:
+    __version__ = _version("oryxeval")
+except PackageNotFoundError:
+    __version__ = "unknown"
+
+from oryxflow import (Parameter, IntParameter, FloatParameter, BoolParameter,
+                      ChoiceParameter, ListParameter, DictParameter, DateParameter,
+                      EnumParameter, hash_files)
+
+from oryxeval.baseline import (
     BaselineError,
     PromptArm,
     Variant,
@@ -42,15 +45,26 @@ from oryxflow.evals.baseline import (
     git_sha,
     git_tree,
 )
-from oryxflow.evals.cases import RESERVED_METADATA, CaseList, load_cases
-from oryxflow.evals.metric import Metric
-from oryxflow.evals.stats import (DeltaCI, JudgeAlignment, RateCI, cluster_labels,
-                                  corrected_rate, delta_ci, judge_alignment,
-                                  rate_ci)
-from oryxflow.evals.sweep import EvalResult, sweep
-from oryxflow.evals.task import EvalFailureRateError, TaskEval
+from oryxeval.cases import RESERVED_METADATA, CaseList, load_cases
+from oryxeval.metric import Metric
+from oryxeval.stats import (DeltaCI, JudgeAlignment, RateCI, cluster_labels,
+                            corrected_rate, delta_ci, judge_alignment,
+                            rate_ci)
+from oryxeval.sweep import EvalResult, sweep
+from oryxeval.task import EvalFailureRateError, TaskEval
 
 __all__ = [
+    '__version__',
+    'BoolParameter',
+    'ChoiceParameter',
+    'DateParameter',
+    'DictParameter',
+    'EnumParameter',
+    'FloatParameter',
+    'IntParameter',
+    'ListParameter',
+    'Parameter',
+    'hash_files',
     'BaselineError',
     'CaseList',
     'DeltaCI',
@@ -85,8 +99,8 @@ class _CliModule(types.ModuleType):
 
     ``cli.py`` holds a function of the same name, and a package cannot expose both
     under one attribute: binding the function over it would hide the module, and
-    with it ``oryxflow.evals.cli.check``. Calling the module runs its ``cli()``, so
-    ``import oryxflow.evals.cli`` and ``ev.cli(MyEval)`` both mean what they say.
+    with it ``oryxeval.cli.check``. Calling the module runs its ``cli()``, so
+    ``import oryxeval.cli`` and ``ev.cli(MyEval)`` both mean what they say.
     """
 
     def __call__(self, task, argv=None):
@@ -96,7 +110,7 @@ class _CliModule(types.ModuleType):
 def __getattr__(name):
     """Import the Typer-backed names only when one of them is actually used."""
     if name in _LAZY:
-        module = importlib.import_module('oryxflow.evals.cli')
+        module = importlib.import_module('oryxeval.cli')
         module.__class__ = _CliModule
         value = module if name == 'cli' else getattr(module, name)
         globals()[name] = value

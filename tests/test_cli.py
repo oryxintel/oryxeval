@@ -28,9 +28,9 @@ from typer.testing import CliRunner                               # noqa: E402
 
 import oryxflow                                                   # noqa: E402
 import oryxflow.state                                             # noqa: E402
-from oryxflow.evals import cli as cli_module                      # noqa: E402
-from oryxflow.evals.cli import build_app, cli                     # noqa: E402
-from oryxflow.evals.task import TaskEval                          # noqa: E402
+from oryxeval import cli as cli_module                      # noqa: E402
+from oryxeval.cli import build_app, cli                     # noqa: E402
+from oryxeval.task import TaskEval                          # noqa: E402
 
 
 runner = CliRunner()
@@ -402,7 +402,7 @@ def test_declining_the_bill_exits_clean_not_with_a_traceback(monkeypatch, capsys
     """Choosing not to spend is the outcome the confirmation exists to make easy;
     a traceback there reads as 'something broke'."""
     import typer
-    from oryxflow.evals import cli as cli_module
+    from oryxeval import cli as cli_module
 
     def refuse(*a, **k):
         raise RuntimeError('sweep aborted before spending on 14 new calls')
@@ -415,7 +415,7 @@ def test_declining_the_bill_exits_clean_not_with_a_traceback(monkeypatch, capsys
 
 
 def test_a_real_runtime_error_still_propagates(monkeypatch):
-    from oryxflow.evals import cli as cli_module
+    from oryxeval import cli as cli_module
 
     def boom(*a, **k):
         raise RuntimeError('the provider exploded')
@@ -425,7 +425,7 @@ def test_a_real_runtime_error_still_propagates(monkeypatch):
 
 
 def test_launching_from_another_directory_warns(tmp_path):
-    from oryxflow.evals.cli import _warn_if_launched_elsewhere
+    from oryxeval.cli import _warn_if_launched_elsewhere
     script = tmp_path / 'evals' / 'run_eval_x.py'
     script.parent.mkdir()
     script.write_text('')
@@ -436,12 +436,12 @@ def test_launching_from_another_directory_warns(tmp_path):
 
 
 def test_rescore_is_a_builtin_flag():
-    from oryxflow.evals.cli import RESERVED_FLAGS
+    from oryxeval.cli import RESERVED_FLAGS
     assert 'rescore' in RESERVED_FLAGS
 
 
 def test_side_by_side_path_sits_beside_the_eval_module():
-    from oryxflow.evals.cli import _side_by_side_path
+    from oryxeval.cli import _side_by_side_path
 
     class Fake:
         pass

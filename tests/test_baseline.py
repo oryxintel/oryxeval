@@ -1,4 +1,4 @@
-"""Tests for oryxflow.evals.baseline -- git-ref baselines and anchored probe variants.
+"""Tests for oryxeval.baseline -- git-ref baselines and anchored probe variants.
 
 Everything runs against a scratch git repository built in ``tmp_path``; no network, and
 no dependence on the oryxflow repo's own history or on a global git identity.
@@ -7,8 +7,8 @@ import subprocess
 
 import pytest
 
-import oryxflow.evals as ev
-from oryxflow.evals.baseline import (BaselineError, Variant, VariantError, git_sha,
+import oryxeval as ev
+from oryxeval.baseline import (BaselineError, Variant, VariantError, git_sha,
                                      git_tree)
 
 

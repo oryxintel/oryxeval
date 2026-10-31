@@ -8,12 +8,12 @@ stays deterministic and fast.
 import pandas as pd
 import pytest
 
-pytest.importorskip('pydantic_evals')  # only for the oryxflow.evals package guard
+pytest.importorskip('pydantic_evals')  # only for the oryxeval package guard
 pytest.importorskip('scipy')
 
-from oryxflow.evals.metric import Metric
-from oryxflow.evals.stats import delta_ci, rate_ci
-from oryxflow.evals.stats import corrected_rate, judge_alignment
+from oryxeval.metric import Metric
+from oryxeval.stats import delta_ci, rate_ci
+from oryxeval.stats import corrected_rate, judge_alignment
 
 N = 300  # resamples; enough for a stable interval, small enough to stay quick
 ACC = Metric('accuracy', 'ok')

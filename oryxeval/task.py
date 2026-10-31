@@ -35,7 +35,7 @@ import oryxflow.tasks
 # A retry policy is worth having by default -- a 429 is not a verdict -- but it is
 # optional plumbing: `RetryConfig` lives in pydantic-ai-slim, not pydantic-evals, and
 # that module raises ImportError when tenacity is absent. Neither may break
-# `import oryxflow.evals`, so the default degrades to "no retries".
+# `import oryxeval`, so the default degrades to "no retries".
 try:
     from pydantic_ai.retries import RetryConfig as _RetryConfig
     from tenacity import stop_after_attempt, wait_exponential
@@ -116,7 +116,7 @@ def _source_hash(fn):
         return 'nosource:{}.{}'.format(getattr(fn, '__module__', '?'),
                                        getattr(fn, '__qualname__', repr(fn)))
     try:
-        blob = ast.dump(oryxflow.codehash._strip_docstrings(ast.parse(src)))
+        blob = ast.dump(oryxflow.codehash.strip_docstrings(ast.parse(src)))
     except SyntaxError:
         blob = src
     return hashlib.md5(blob.encode('utf-8')).hexdigest()[:16]

@@ -26,9 +26,9 @@ from pathlib import Path
 import oryxflow
 import oryxflow.codehash
 
-from oryxflow.evals.stats import (RateCI, corrected_rate, delta_ci,
+from oryxeval.stats import (RateCI, corrected_rate, delta_ci,
                                   judge_alignment, rate_ci)
-from oryxflow.evals.task import TaskEval, _case_digest, _source_hash
+from oryxeval.task import TaskEval, _case_digest, _source_hash
 
 NAN = float('nan')
 
@@ -718,7 +718,7 @@ class EvalResult:
         overrides the layout with a path or a template string. Default path:
         ``results/<date>-<name>-side-by-side.md``.
         """
-        from oryxflow.evals import sidebyside
+        from oryxeval import sidebyside
         records = self._outputs() if callable(self._outputs) else self._outputs
         if records is None:
             raise ValueError('this result carries no stored outputs -- side_by_side() '

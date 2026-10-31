@@ -153,7 +153,7 @@ def render(result, records, path=None, show_all=False, template=None):
     try:
         import jinja2
     except ImportError:
-        raise ImportError("side_by_side() needs jinja2: pip install 'oryxflow[evals]'")
+        raise ImportError("side_by_side() needs jinja2: pip install oryxeval")
     if template is None:
         source = DEFAULT_TEMPLATE
     elif '\n' not in str(template) and Path(str(template)).exists():
@@ -170,7 +170,7 @@ def render(result, records, path=None, show_all=False, template=None):
     text = re.sub(r'[ \t]+\n', '\n', text)
     text = re.sub(r'\n{3,}', '\n\n', text)
     if path is None:
-        from oryxflow.evals.sweep import _slug
+        from oryxeval.sweep import _slug
         path = Path('results') / '{}-{}-side-by-side.md'.format(
             datetime.date.today().isoformat(), _slug(result.name))
     path = Path(path)

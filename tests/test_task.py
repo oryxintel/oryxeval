@@ -19,8 +19,8 @@ from pydantic_evals.evaluators import Evaluator, EvaluatorContext  # noqa: E402
 
 import oryxflow                                                   # noqa: E402
 import oryxflow.state                                             # noqa: E402
-from oryxflow.evals.metric import Metric                          # noqa: E402
-from oryxflow.evals.task import TaskEval, EvalFailureRateError    # noqa: E402
+from oryxeval.metric import Metric                          # noqa: E402
+from oryxeval.task import TaskEval, EvalFailureRateError    # noqa: E402
 
 
 @pytest.fixture

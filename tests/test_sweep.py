@@ -23,8 +23,9 @@ from pydantic_evals import Case, Dataset                         # noqa: E402
 
 import oryxflow                                                  # noqa: E402
 import oryxflow.state                                            # noqa: E402
-from oryxflow.evals.metric import Metric                         # noqa: E402
-from oryxflow.evals.sweep import EvalResult, sweep               # noqa: E402
+import oryxeval.task                                             # noqa: E402
+from oryxeval.metric import Metric                         # noqa: E402
+from oryxeval.sweep import EvalResult, sweep               # noqa: E402
 
 
 @pytest.fixture
@@ -426,7 +427,7 @@ def test_no_metric_is_a_clear_error_not_a_crash(env):
 
 def test_target_source_hash_moves_with_the_body(env):
     """What makes test 20 work: the token is the function's source, not its name."""
-    from oryxflow.evals.sweep import _case_digest, _source_hash
+    from oryxeval.sweep import _case_digest, _source_hash
 
     assert _source_hash(run_turn) != _source_hash(run_turn_edited)
     assert _source_hash(run_turn) == _source_hash(run_turn)
@@ -479,7 +480,7 @@ def test_a_scalar_keyword_is_fixed_for_every_arm(env):
 # --------------------------------------------------------------- the class form
 
 def test_class_form_sweeps_a_taskeval_subclass(env):
-    from oryxflow.evals.task import TaskEval
+    from oryxeval.task import TaskEval
 
     async def case(self, inputs):
         CALLS.append((inputs.q, self.prompt_version))
@@ -504,7 +505,7 @@ def test_class_form_sweeps_a_taskeval_subclass(env):
 
 
 def test_class_form_refuses_a_dataset_argument(env):
-    from oryxflow.evals.task import TaskEval
+    from oryxeval.task import TaskEval
 
     cls = type('ClassArmDs', (TaskEval,), dict(
         dataset=Dataset(name='ds', cases=make_cases(2)), code_version='v1'))
@@ -580,7 +581,7 @@ def test_watch_accepts_a_callable_for_anchored_patterns(env):
 
 def test_watch_is_rejected_on_the_class_form(env):
     # the class form declares its own code_version(); two mechanisms would disagree
-    class Declared(oryxflow.evals.task.TaskEval):
+    class Declared(oryxeval.task.TaskEval):
         dataset = Dataset(name='d', cases=make_cases(2))
         metric = Metric('yield', 'wrote')
 
@@ -782,9 +783,9 @@ def _answers(monkeypatch, *replies):
     def fake_input(prompt):
         asked.append(prompt)
         return next(seen)
-    # `oryxflow.evals.sweep` as an ATTRIBUTE is the function -- the package
+    # `oryxeval.sweep` as an ATTRIBUTE is the function -- the package
     # re-exports it over its own submodule -- so reach the module through sys.modules.
-    sweep_module = sys.modules['oryxflow.evals.sweep']
+    sweep_module = sys.modules['oryxeval.sweep']
     monkeypatch.setattr('builtins.input', fake_input)
     monkeypatch.setattr(sweep_module, '_interactive', lambda: True)
     return asked
@@ -867,7 +868,7 @@ def test_an_axis_named_arm_does_not_invent_a_meta_column(env):
 def test_a_real_metadata_arm_column_is_still_preserved_when_reached_directly(env):
     """sweep refuses it up front, but EvalResult built by hand must not lose it."""
     import pandas as _pd
-    from oryxflow.evals.sweep import _tagger
+    from oryxeval.sweep import _tagger
     df = _pd.DataFrame([{'case_name': 'c0', 'arm': 'outline', 'wrote': True}])
     tagged = _tagger(['prompt_version'])('live', {'prompt_version': 'live'}, df)
     assert tagged['meta_arm'].tolist() == ['outline']

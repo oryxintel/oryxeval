@@ -19,7 +19,7 @@ from pydantic_evals import Case, Dataset                          # noqa: E402
 
 import oryxflow                                                   # noqa: E402
 import oryxflow.state                                             # noqa: E402
-from oryxflow.evals.task import TaskEval                           # noqa: E402
+from oryxeval.task import TaskEval                           # noqa: E402
 
 
 @pytest.fixture

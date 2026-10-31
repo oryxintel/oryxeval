@@ -55,7 +55,7 @@ def _load_sweep():
     credentials probe should not pay for anything it does not use, and a test
     can replace this one seam to exercise the CLI without running a sweep.
     """
-    from oryxflow.evals.sweep import sweep
+    from oryxeval.sweep import sweep
     return sweep
 
 

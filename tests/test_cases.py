@@ -1,4 +1,4 @@
-"""Tests for oryxflow.evals.cases.load_cases -- all offline, no network."""
+"""Tests for oryxeval.cases.load_cases -- all offline, no network."""
 
 import json
 import textwrap
@@ -11,7 +11,7 @@ pytest.importorskip('pydantic_evals')
 from pydantic import BaseModel, ValidationError
 from pydantic_evals import Case
 
-from oryxflow.evals.cases import load_cases
+from oryxeval.cases import load_cases
 
 
 class Turn(BaseModel):

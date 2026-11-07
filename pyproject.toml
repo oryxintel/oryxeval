@@ -1,25 +1,33 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "oryxeval"
 version = "26.11.6"
-description = "Cheap, durable LLM evals: every arm of an eval matrix is a cached cell -- re-runs pay only for what changed."
+description = "Cheap, durable LLM evals: free and local, every arm cached so re-runs pay only for what changed, with confidence intervals and a verdict."
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{name = "Oryx Intelligence LLC", email = "dev@oryxintel.com"}]
 requires-python = ">=3.10"
 dependencies = ["oryxflow>=26.11.6", "pydantic-evals>=2", "scipy", "typer", "tenacity",
                 "jinja2", "pyyaml", "pandas", "numpy"]
-keywords = ["llm", "evals", "pydantic-evals", "prompt", "oryxflow"]
+keywords = ["llm", "evals", "llm-evaluation", "prompt-engineering", "pydantic-evals",
+            "llm-as-a-judge", "a-b-testing", "confidence-intervals", "caching", "oryxflow"]
 classifiers = ["Development Status :: 4 - Beta", "Programming Language :: Python :: 3",
-               "Intended Audience :: Developers", "Intended Audience :: Science/Research"]
+               "Programming Language :: Python :: 3 :: Only",
+               "Operating System :: OS Independent",
+               "Intended Audience :: Developers", "Intended Audience :: Science/Research",
+               "Topic :: Scientific/Engineering :: Artificial Intelligence",
+               "Topic :: Software Development :: Testing"]
 
 [project.optional-dependencies]
 test = ["pytest"]
 
 [project.urls]
+Homepage = "https://github.com/oryxintel/oryxeval"
+Documentation = "https://docs.oryxflow.dev/docs/llm-evals/"
 Source = "https://github.com/oryxintel/oryxeval"
 Changelog = "https://github.com/oryxintel/oryxeval/blob/main/CHANGELOG.md"
 

@@ -34,6 +34,7 @@ oryxeval/
   task.py       # TaskEval, EvalOutputs, EvalFailureRateError
 tests/          # pytest; metric/verdict tests run on hand-built DataFrames
 docs/todo/      # design notes (plans)
+devops/publish.md  # release runbook (PyPI Trusted Publishing)
 CHANGELOG.md  README.md
 .githooks/     # pre-commit: changelog lint + check_private_terms.py
 .github/workflows/  # tests.yml (matrix), release.yml (PyPI Trusted Publishing)

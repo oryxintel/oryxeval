@@ -130,7 +130,7 @@ without `Migration:`. Enable it once per clone: `git config core.hooksPath .gith
 
 ## Conventions
 
-- Version is calver; provisional `26.11.0` until the maintainer stamps a release. Unreleased work
+- Version is calver; `YY.M.D` (latest release `26.11.6`). Unreleased work
   goes under `## [Unreleased]` in `CHANGELOG.md`; every breaking change starts with `BREAKING:` and
   carries a `Migration:` clause.
 - Commits: imperative summary line; end with the Co-Authored-By trailer.

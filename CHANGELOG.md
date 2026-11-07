@@ -12,10 +12,10 @@ coding agents diagnosing regressions after an upgrade, so the format is load-bea
 - **Name the actual symbol in backticks** (`` `sweep` ``, `` `EvalResult.verdict()` ``), never
   prose. Agents grep this file for the symbol in their traceback.
 
-## [Unreleased]
+## [26.11.6] - 2026-11-06
 ### Added
 - `oryxeval`: first release as a standalone package. The code is `oryxflow.evals` as of oryxflow
-  26.10.22, unchanged apart from the import name. Requires `oryxflow>=26.11.0`. Migration: change
+  26.10.22, unchanged apart from the import name. Requires `oryxflow>=26.11.6`. Migration: change
   only the import lines, `import oryxflow.evals as ev` -> `import oryxeval as ev` and `from
   oryxflow.evals.<module> import X` -> `from oryxeval.<module> import X`; existing eval caches then
   stay valid (no cache key contains the module path). Keep `import oryxflow` and leave every

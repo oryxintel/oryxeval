@@ -40,6 +40,14 @@ CHANGELOG.md  README.md
 .github/workflows/  # tests.yml (matrix), release.yml (PyPI Trusted Publishing)
 ```
 
+## Docs
+
+User-facing docs live in the sibling repo `../oryxlib-docs` (site docs.oryxflow.dev), not here.
+Read `../oryxlib-docs/MAINTAINING.md` before editing pages. Any user-facing change here (API,
+parameter, behaviour, install) needs a docs update there, committed in that repo. Pages for
+oryxeval: the `llm-evals*` pages, `docs/docs/claude-plugin/evals.md` and the oryxeval changelog
+page. The changelog stays HERE (`CHANGELOG.md`); it is synced into the docs at release.
+
 ## SEAM
 
 The per-case DataFrame is the interface. Everything downstream of a run (`Metric`, slices,

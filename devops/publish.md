@@ -27,6 +27,11 @@ gh run watch                                  # the Release run; done when publi
    confirmation step: there is no reviewer approval.
 6. **Verify** (below). PyPI never allows re-uploading a version: if something is wrong, yank it
    and release the next version.
+7. **Update the docs site.** After the PyPI release lands, run
+   `cd ../oryxlib-docs && devops/sync-release.sh --push` (Windows:
+   `devops\sync-release.ps1 -Push`). It syncs both changelogs and the oryxflow pin, builds
+   with the doc tests, commits and pushes (the push redeploys docs.oryxflow.dev via
+   Cloudflare). Details in `../oryxlib-docs/MAINTAINING.md`.
 
 ## One-time setup
 
